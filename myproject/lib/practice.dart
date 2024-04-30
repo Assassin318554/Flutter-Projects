@@ -41,7 +41,7 @@ void main() {
   //   print(Exception);
   // }
 
-  UserInformation info = UserInformation(name: "Nahin", income: 100000, id: 189023);
+  // UserInformation info = UserInformation(name: "Nahin", income: 100000, id: 189023);
   
 
 }
