@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/pages/home/widgets/add_task_dialog_widgets.dart';
 import 'package:todo_app/models/task.dart';
 import 'package:todo_app/pages/home/widgets/custom_task_widgets.dart';
 
@@ -48,14 +49,20 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final newTask = Task(
-            id: taskList.length.toString(),
-            title: 'Task ${(taskList.length + 1).toString()}',
-            createdAt: DateTime.now(),
-            updatedAt: DateTime.now(),
+          // Open a dialogue box to for user input
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AddTaskDialog(
+                taskList: taskList,
+                setState: () {
+                  setState(() {});
+                },
+              );
+            },
           );
           setState(() {
-            taskList.add(newTask);
+            taskList = taskList;
           });
         },
         child: const Icon(Icons.add),

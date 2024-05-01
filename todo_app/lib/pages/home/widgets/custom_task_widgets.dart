@@ -41,10 +41,26 @@ class CustomTaskWidgetState extends State<CustomTaskWidget> {
                 const SizedBox(width: 5),
                 SizedBox(
                   width: deviceWidth * 0.7,
-                  child: Text(
-                    widget.task.title,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        widget.task.title,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      if (widget.task.description != null &&
+                          widget.task.description != "")
+                        Text(
+                          widget.task.description ?? "",
+                          maxLines: 1,
+                          overflow: TextOverflow.fade,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: theme.colorScheme.secondary,
+                          ),
+                        ),
+                    ],
                   ),
                 ),
               ],
