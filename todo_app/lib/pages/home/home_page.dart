@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:todo_app/pages/home/widgets/add_task_dialog_widgets.dart';
 import 'package:todo_app/models/task.dart';
+import 'package:todo_app/pages/home/widgets/bottom_navbar_widgets.dart';
 import 'package:todo_app/pages/home/widgets/custom_task_widgets.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,15 +14,47 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Task> taskList = [];
+  List<Task> incompleteTask = [];
+  List<Task> completeTask = [];
+
+  int index = 0;
+  void changeIndex(int newIndex) {
+    setState(() {
+      index = newIndex;
+    });
+  }
+
+  void reload() {
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final deviceWidth = MediaQuery.of(context).size.width;
-    // final deviceheight = MediaQuery.of(context).size.height;
 
-    final taskListWidget = taskList.map((singleTask) {
-      return CustomTaskWidget(task: singleTask);
+    // taskList.map((e) => {
+    //       if (e.status == true)
+    //         {completeTask.add(e)}
+    //       else
+    //         {incompleteTask.add(e)}
+    //     });
+
+    completeTask = taskList.where((element) => element.status).toList();
+    incompleteTask = taskList.where((element) => !element.status).toList();
+
+    final taskListWidget = incompleteTask.map((singleTask) {
+      return CustomTaskWidget(
+        task: singleTask,
+        reload: reload,
+      );
+    }).toList();
+
+    final completedTaskWidget = completeTask.map((singleTask) {
+      return CustomTaskWidget(
+        task: singleTask,
+        reload: reload,
+      );
     }).toList();
 
     return Scaffold(
@@ -28,13 +62,13 @@ class _HomePageState extends State<HomePage> {
         // toolbarHeight: deviceheight * 0.08,
         centerTitle: true,
         title: const Text(
-          "Task Lists",
+          "To Do Lists",
           style: TextStyle(
-            fontFamily: 'Fira Code',
             fontWeight: FontWeight.bold,
+            color: Colors.lightGreenAccent,
           ),
         ),
-        backgroundColor: theme.colorScheme.tertiary,
+        backgroundColor: theme.colorScheme.primary,
         actions: [
           Padding(
             padding: EdgeInsets.only(right: deviceWidth * 0.04),
@@ -46,7 +80,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Open a dialogue box to for user input
@@ -61,19 +95,44 @@ class _HomePageState extends State<HomePage> {
               );
             },
           );
-          setState(() {
-            taskList = taskList;
-          });
         },
         child: const Icon(Icons.add),
       ),
-      body: taskListWidget.isEmpty
-          ? const Center(child: Text('No Task Added'))
+      bottomNavigationBar: const CustomBottomNavBar(),
+      body: completedTaskWidget.isEmpty && incompleteTask.isEmpty
+          ? Center(
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Lottie.network(
+                    "https://assets4.lottiefiles.com/datafiles/vhvOcuUkH41HdrL/data.json"),
+                const SizedBox(height: 10),
+                const Text('No Tasks Yet'),
+                ElevatedButton(
+                  onPressed: () {
+                    reload();
+                  },
+                  child: const Text('Reload'),
+                )
+              ],
+            ))
           : SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: Column(
-                  children: taskListWidget,
+                  children: [
+                    // ExpansionTile(
+                    //     title: Text(
+                    //         'Incompleted Tasks (${taskListWidget.length})'),
+                    //     children: taskListWidget),
+                    ...taskListWidget,
+                    ExpansionTile(
+                        initiallyExpanded: true,
+                        title: Text(
+                            'Completed Tasks (${completedTaskWidget.length})'),
+                        children: completedTaskWidget),
+                  ],
                 ),
               ),
             ),

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/models/task.dart';
 
 class CustomTaskWidget extends StatefulWidget {
+  const CustomTaskWidget({super.key, required this.task, required this.reload});
   final Task task;
-  const CustomTaskWidget({super.key, required this.task});
+  final VoidCallback reload;
 
   @override
   State<CustomTaskWidget> createState() => CustomTaskWidgetState();
@@ -27,8 +28,9 @@ class CustomTaskWidgetState extends State<CustomTaskWidget> {
                 IconButton(
                   onPressed: () {
                     setState(() {
-                      widget.task.toogleCompleted(); // in home page
+                      widget.task.toogleCompleted();
                     });
+                    widget.reload.call(); // in home page
                   },
                   icon: Icon(
                     widget.task.status
