@@ -22,4 +22,24 @@ class Task {
   void toogleStatus() => favourite = !favourite;
   void toogleCompleted() => status = !status;
   set setUpdatedAt(DateTime newUpdatedAt) => updatedAt = newUpdatedAt;
+
+  Task copyWith({
+    String? id,
+    String? title,
+    String? description,
+    bool? favourite,
+    bool? status,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return Task(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      favourite: favourite ?? this.favourite,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
 }

@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/models/task.dart';
 import 'package:uuid/uuid.dart';
 
-class AddTaskDialog extends StatefulWidget {
-  const AddTaskDialog({
-    super.key,
-    required this.taskList,
-    required this.setState,
-  });
+class AddTaskDialog extends ConsumerStatefulWidget {
+  const AddTaskDialog(this.taskList, this.setState, {super.key});
   final List<Task> taskList;
 
   // Take setState as input function
   final Function setState;
 
   @override
-  State<AddTaskDialog> createState() => _AddTaskDialogState();
+  State<AddTaskDialog> Consumer() => _AddTaskDialogState();
+
+  @override
+  // ignore: no_logic_in_create_state
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    throw UnimplementedError();
+  }
 }
 
 class _AddTaskDialogState extends State<AddTaskDialog> {

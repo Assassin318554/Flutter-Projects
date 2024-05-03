@@ -1,61 +1,46 @@
-// import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:myproject/other.dart';
 
-// class Car {
-//   String? body;
-//   String? wheel;
-//   String? brand;
-//   bool doesHonk = true;
-//
-//   Car(this.body, this.wheel, this.brand, this.doesHonk);
-//
-//   void details() {
-//     String honkStatus = doesHonk ? "honks" : "doesn't honk";
-//     debugPrint("This car $honkStatus and this car have $wheel wheels");
-//   }
-//
-//   String? bbrand() {
-//     return brand;
-//   }
-// }
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
-void main() {
-  //stdout.write("Enter your name: ");
-  // var namee = stdin.readLineSync();
-  // print("Your name is: $namee");
-  // var car1 = Car("Metal", "4", "Tesla", false);
-  // debugPrint("Brand of car1 is: ${car1.bbrand()}");
-  // car1.details();
-
-  // const name = [
-  //   'nahin',
-  //   'faisal',
-  //   'riaz',
-  //   'topu',
-  // ];
-
-  // try {
-  //   name[2] = 'jawad';
-  //   print(name[2]);
-  // }
-  // catch (Exception) {
-  //   print(Exception);
-  // }
-
-  // UserInformation info = UserInformation(name: "Nahin", income: 100000, id: 189023);
-  
-
+  @override
+  State<HomePage> createState() => HomePageState();
 }
 
-class UserInformation {
-  int id;
-  String name;
-  int income;
-
-  UserInformation({
-    required this.id,
-    required this.name,
-    required this.income,
-  });
-
-
+class HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text("Practice"),
+        backgroundColor: Colors.orange,
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 50),
+            // const Text("Hello world"),
+            const SizedBox(height: 50),
+            Consumer(
+              builder: (context, ref, child) {
+                final name = ref.watch(helloWorldProvider);
+                return Text(name);
+              },
+            ),
+            // Consumer(
+            //   builder: (context, ref, child) {
+            //     return ElevatedButton(
+            //       onPressed: () {},
+            //       child: const Text("Change me"),
+            //     );
+            //   },
+            // ),
+          ],
+        ),
+      ),
+    );
+  }
 }

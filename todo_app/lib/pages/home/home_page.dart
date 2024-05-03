@@ -1,60 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
 import 'package:todo_app/pages/home/widgets/add_task_dialog_widgets.dart';
-import 'package:todo_app/models/task.dart';
 import 'package:todo_app/pages/home/widgets/bottom_navbar_widgets.dart';
 import 'package:todo_app/pages/home/widgets/custom_task_widgets.dart';
+import 'package:todo_app/pages/home/widgets/home_state.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
-
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  List<Task> taskList = [];
-  List<Task> incompleteTask = [];
-  List<Task> completeTask = [];
-
-  int index = 0;
-  void changeIndex(int newIndex) {
-    setState(() {
-      index = newIndex;
-    });
-  }
-
-  void reload() {
-    setState(() {});
-  }
-
+class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final deviceWidth = MediaQuery.of(context).size.width;
 
-    // taskList.map((e) => {
-    //       if (e.status == true)
-    //         {completeTask.add(e)}
-    //       else
-    //         {incompleteTask.add(e)}
-    //     });
-
-    completeTask = taskList.where((element) => element.status).toList();
-    incompleteTask = taskList.where((element) => !element.status).toList();
+    final incompleteTask = ref.watch(completedTaskProvider);
+    final completeTask = ref.watch(incompletedTaskProvider);
 
     final taskListWidget = incompleteTask.map((singleTask) {
-      return CustomTaskWidget(
-        task: singleTask,
-        reload: reload,
-      );
+      return CustomTaskWidget(id: singleTask.id);
     }).toList();
 
     final completedTaskWidget = completeTask.map((singleTask) {
-      return CustomTaskWidget(
-        task: singleTask,
-        reload: reload,
-      );
+      return CustomTaskWidget(id: singleTask.id);
     }).toList();
 
     return Scaffold(
@@ -65,7 +37,7 @@ class _HomePageState extends State<HomePage> {
           "To Do Lists",
           style: TextStyle(
             fontWeight: FontWeight.bold,
-            color: Colors.lightGreenAccent,
+            color: Colors.white,
           ),
         ),
         backgroundColor: theme.colorScheme.primary,
@@ -87,12 +59,7 @@ class _HomePageState extends State<HomePage> {
           showDialog(
             context: context,
             builder: (context) {
-              return AddTaskDialog(
-                taskList: taskList,
-                setState: () {
-                  setState(() {});
-                },
-              );
+              return const AddTaskDialog();
             },
           );
         },
@@ -108,11 +75,16 @@ class _HomePageState extends State<HomePage> {
                 Lottie.network(
                     "https://assets4.lottiefiles.com/datafiles/vhvOcuUkH41HdrL/data.json"),
                 const SizedBox(height: 10),
-                const Text('No Tasks Yet'),
+                const Text(
+                  'No Tasks Yet',
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: () {
-                    reload();
-                  },
+                  onPressed: () {},
                   child: const Text('Reload'),
                 )
               ],
@@ -122,10 +94,6 @@ class _HomePageState extends State<HomePage> {
                 padding: const EdgeInsets.all(8),
                 child: Column(
                   children: [
-                    // ExpansionTile(
-                    //     title: Text(
-                    //         'Incompleted Tasks (${taskListWidget.length})'),
-                    //     children: taskListWidget),
                     ...taskListWidget,
                     ExpansionTile(
                         initiallyExpanded: true,

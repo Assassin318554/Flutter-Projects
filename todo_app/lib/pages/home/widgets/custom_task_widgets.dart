@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/models/task.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_app/pages/home/widgets/home_state.dart';
 
-class CustomTaskWidget extends StatefulWidget {
-  const CustomTaskWidget({super.key, required this.task, required this.reload});
-  final Task task;
-  final VoidCallback reload;
+class CustomTaskWidget extends ConsumerWidget {
+  const CustomTaskWidget({super.key, required this.id});
+  final String id;
 
   @override
-  State<CustomTaskWidget> createState() => CustomTaskWidgetState();
-}
-
-class CustomTaskWidgetState extends State<CustomTaskWidget> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final deviceWidth = MediaQuery.of(context).size.width;
 
+    final task = ref.watch(selectedTaskProvider(id));
     return Padding(
       padding: const EdgeInsets.only(bottom: 8, top: 8),
       child: Row(
@@ -27,17 +23,19 @@ class CustomTaskWidgetState extends State<CustomTaskWidget> {
               children: [
                 IconButton(
                   onPressed: () {
-                    setState(() {
-                      widget.task.toogleCompleted();
+                    ref
+                        .read(selectedTaskProvider(id).notifier)
+                        .update((oldVal) {
+                      final newVal = oldVal.copyWith(
+                        updatedAt: DateTime.now(),
+                        status: !oldVal.status,
+                      );
+                      return newVal;
                     });
-                    widget.reload.call(); // in home page
                   },
                   icon: Icon(
-                    widget.task.status
-                        ? Icons.check_box
-                        : Icons.circle_outlined,
-                    color:
-                        widget.task.status ? theme.colorScheme.primary : null,
+                    task.status ? Icons.check_box : Icons.circle_outlined,
+                    color: task.status ? theme.colorScheme.primary : null,
                   ),
                 ),
                 const SizedBox(width: 5),
@@ -47,14 +45,13 @@ class CustomTaskWidgetState extends State<CustomTaskWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        widget.task.title,
+                        task.title,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      if (widget.task.description != null &&
-                          widget.task.description != "")
+                      if (task.description != null && task.description != "")
                         Text(
-                          widget.task.description ?? "",
+                          task.description ?? "",
                           maxLines: 1,
                           overflow: TextOverflow.fade,
                           style: TextStyle(
@@ -71,13 +68,17 @@ class CustomTaskWidgetState extends State<CustomTaskWidget> {
               // onPressed: toogle;
               // onPressed: () => toogle();
               onPressed: () {
-                setState(() {
-                  widget.task.toogleStatus();
+                ref.read(selectedTaskProvider(id).notifier).update((oldVal) {
+                  final newVal = oldVal.copyWith(
+                    updatedAt: DateTime.now(),
+                    favourite: !oldVal.favourite,
+                  );
+                  return newVal;
                 });
               },
               icon: Icon(
                 Icons.star,
-                color: widget.task.favourite ? theme.colorScheme.primary : null,
+                color: task.favourite ? theme.colorScheme.primary : null,
               ),
             ),
           ]),
