@@ -56,12 +56,12 @@ class _HomePageState extends ConsumerState<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Open a dialogue box to for user input
-          showDialog(
-            context: context,
-            builder: (context) {
-              return const AddTaskDialog();
-            },
-          );
+          // showDialog(
+          //   context: context,
+          //   builder: (context) {
+          //     // return const AddTaskDialog();
+          //   },
+          // );
         },
         child: const Icon(Icons.add),
       ),
