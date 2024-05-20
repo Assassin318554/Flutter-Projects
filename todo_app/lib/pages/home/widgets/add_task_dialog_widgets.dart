@@ -11,7 +11,7 @@ class AddTaskDialog extends ConsumerStatefulWidget {
   final Function setState;
 
   @override
-  State<AddTaskDialog> Consumer() => _AddTaskDialogState();
+  // State<AddTaskDialog> Consumer() => _AddTaskDialogState();
 
   @override
   // ignore: no_logic_in_create_state
