@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  int currentLevel = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,30 +27,30 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.grey[850],
         elevation: 0.0,
       ),
-      body: const Padding(
-        padding: EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
+            const Center(
               child: CircleAvatar(
                 radius: 40.0,
                 backgroundImage: AssetImage('assets/CodingProfilePhoto.jpg'),
               ),
             ),
-            Divider(
+            const Divider(
               height: 60.0,
               color: Colors.grey,
             ),
-            Text(
+            const Text(
               'NAME',
               style: TextStyle(
                 color: Colors.grey,
                 letterSpacing: 2.0,
               ),
             ),
-            SizedBox(height: 10.0),
-            Text(
+            const SizedBox(height: 10.0),
+            const Text(
               'Nahin Intesher',
               style: TextStyle(
                 color: Colors.amberAccent,
@@ -52,16 +59,16 @@ class Home extends StatelessWidget {
                 letterSpacing: 2.0,
               ),
             ),
-            SizedBox(height: 30.0),
-            Text(
+            const SizedBox(height: 30.0),
+            const Text(
               'CURENNT INSTITUTE',
               style: TextStyle(
                 color: Colors.grey,
                 letterSpacing: 2.0,
               ),
             ),
-            SizedBox(height: 10.0),
-            Text(
+            const SizedBox(height: 10.0),
+            const Text(
               'UIU',
               style: TextStyle(
                 color: Colors.amberAccent,
@@ -70,8 +77,26 @@ class Home extends StatelessWidget {
                 letterSpacing: 2.0,
               ),
             ),
-            SizedBox(height: 30.0),
-            Row(
+            const SizedBox(height: 30.0),
+            const Text(
+              'LEVEL',
+              style: TextStyle(
+                color: Colors.grey,
+                letterSpacing: 2.0,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Text(
+              '$currentLevel',
+              style: const TextStyle(
+                color: Colors.amberAccent,
+                fontWeight: FontWeight.bold,
+                fontSize: 28.0,
+                letterSpacing: 2.0,
+              ),
+            ),
+            const SizedBox(height: 30.0),
+            const Row(
               children: [
                 Icon(
                   Icons.email,
@@ -90,6 +115,30 @@ class Home extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            currentLevel += 1;
+          });
+        },
+        backgroundColor: Colors.amber[800],
+        child: const Icon(Icons.add),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+        backgroundColor: Colors.grey[850],
+        selectedItemColor: Colors.amberAccent,
+        unselectedItemColor: Colors.grey,
       ),
     );
   }
