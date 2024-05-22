@@ -12,6 +12,9 @@
       <excludeFolder url="file://$MODULE_DIR$/todo_app/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/todo_app/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/todo_app/build" />
+      <excludeFolder url="file://$MODULE_DIR$/simple_id_card/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/simple_id_card/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/simple_id_card/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
