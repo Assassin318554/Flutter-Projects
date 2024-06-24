@@ -11,7 +11,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      color: const Color.fromARGB(255, 186, 47, 211),
+      color: const Color.fromARGB(255, 182, 140, 255),
       elevation: 10,
       // shape: const CircularNotchedRectangle(),
       child: Row(
@@ -22,7 +22,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
             icon: const Icon(Icons.home),
             style: ButtonStyle(
               iconColor: MaterialStateProperty.all(
-                  const Color.fromARGB(255, 9, 19, 72)),
+                  const Color.fromARGB(255, 41, 9, 72)),
               iconSize: MaterialStateProperty.all(30),
             ),
           ),
@@ -39,7 +39,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
           const SizedBox(width: 10),
           IconButton(
             onPressed: () {},
-            icon: Icon(Icons.settings),
+            icon: const Icon(Icons.settings),
             style: ButtonStyle(
               iconColor: MaterialStateProperty.all(
                   const Color.fromARGB(255, 9, 19, 72)),

@@ -27,7 +27,7 @@ class _LoadingState extends State<Loading> {
               Color.fromARGB(255, 9, 19, 72),
               Color.fromARGB(255, 47, 20, 94),
               Color.fromARGB(255, 92, 46, 172),
-              Color.fromARGB(255, 183, 45, 208),
+              Color.fromARGB(255, 172, 129, 248),
             ],
           ),
         ),

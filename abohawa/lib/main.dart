@@ -1,7 +1,7 @@
 import 'package:abohawa/Pages/Home/Home.dart';
-import 'package:abohawa/Pages/Home/Loacation.dart';
 import 'package:abohawa/Pages/Home/Loading.dart';
 import 'package:flutter/material.dart';
+import 'package:abohawa/Pages/Widgets/LocationWidget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,12 +25,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      // home: const HomePage(),
-      routes: {
-        '/': (context) => const Loading(),
-        '/home': (context) => const HomePage(),
-        '/location': (context) => const Location(),
-      },
+      home: const Loading(),
     );
   }
 }

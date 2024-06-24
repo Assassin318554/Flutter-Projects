@@ -1,8 +1,14 @@
 import 'dart:convert';
 // import 'dart:html';
+import 'package:abohawa/Pages/Widgets/DecriptionWeatherWidget.dart';
+import 'package:abohawa/Pages/Widgets/HumidityWidget.dart';
+import 'package:abohawa/Pages/Widgets/LocationWidget.dart';
+import 'package:abohawa/Pages/Widgets/TemparatureWidget.dart';
+import 'package:abohawa/Pages/Widgets/WindSpeedWidget.dart';
 import 'package:abohawa/Pages/Widgets/bottom_navbar_widgets.dart';
-import 'package:http/http.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:http/http.dart';
 import 'package:abohawa/Pages/Widgets/Worker.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,12 +19,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  String? location;
+  String? temp;
+  String? humidity;
+  String? windSpeed;
+  String? description;
+  String? main;
   int _selectedIndex = 0;
-  void startApp() async {
-    Worker worker = Worker(location: 'New York');
+  final TextEditingController _searchController = TextEditingController();
+
+  void startApp({String city = 'Dhaka'}) async {
+    Worker worker = Worker(location: city);
     await worker.getData();
-    print(worker.location);
-    print(worker.temp);
+    setState(() {
+      location = worker.location;
+      temp = worker.temp;
+      humidity = worker.humidity;
+      windSpeed = worker.windSpeed;
+      description = worker.description;
+      main = worker.main;
+    });
   }
 
   void _onItemTapped(int index) {
@@ -36,6 +56,19 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'ABOHAWA',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 25,
+            fontFamily: 'Headland One',
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: const Color.fromARGB(255, 9, 19, 72),
+        centerTitle: true,
+      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -46,50 +79,73 @@ class _HomePageState extends State<HomePage> {
               Color.fromARGB(255, 9, 19, 72),
               Color.fromARGB(255, 47, 20, 94),
               Color.fromARGB(255, 92, 46, 172),
-              Color.fromARGB(255, 183, 45, 208),
+              Color.fromARGB(255, 172, 129, 248),
             ],
           ),
         ),
-        child: const Center(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                'Home Page!',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 30,
-                  fontFamily: 'Headland One',
-                  fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: TextField(
+                  style: const TextStyle(color: Colors.white),
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: const BorderSide(color: Colors.white),
+                    ),
+                    contentPadding: const EdgeInsets.all(20),
+                    hintText: 'Enter city name',
+                    hintStyle: const TextStyle(color: Colors.white),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.search, color: Colors.white),
+                      onPressed: () {
+                        startApp(city: _searchController.text);
+                      },
+                    ),
+                  ),
                 ),
               ),
+              const SizedBox(height: 10),
+              location != null
+                  ? LocationWidget(location: location!)
+                  : const CircularProgressIndicator(),
+              const SizedBox(height: 10),
+              temp != null
+                  ? TemparatureWidget(temparature: temp!)
+                  : const CircularProgressIndicator(),
+              const SizedBox(height: 10),
+              humidity != null
+                  ? HumidityWidget(humidity: humidity!)
+                  : const CircularProgressIndicator(),
+              const SizedBox(height: 10),
+              windSpeed != null
+                  ? WindSpeedWidget(windspeed: windSpeed!)
+                  : const CircularProgressIndicator(),
+              const SizedBox(height: 10),
+              description != null
+                  ? DescriptionWeatherWidget(description: description!)
+                  : const CircularProgressIndicator(),
             ],
           ),
         ),
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   backgroundColor: const Color.fromARGB(255, 183, 45, 208),
-      //   items: const <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       label: 'Home',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.location_on),
-      //       label: 'Location',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.settings),
-      //       label: 'Settings',
-      //     ),
-      //   ],
-      //   currentIndex: _selectedIndex,
-      //   unselectedItemColor: const Color.fromARGB(255, 9, 19, 72),
-      //   selectedItemColor: const Color.fromARGB(255, 83, 200, 250),
-      //   selectedFontSize: 15,
-      //   onTap: _onItemTapped,
-      // ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.deepPurpleAccent,
+        onPressed: () {
+          startApp();
+        },
+        child: const Icon(
+          Icons.refresh,
+          color: Colors.white,
+          size: 30,
+        ),
+      ),
       bottomNavigationBar: const CustomBottomNavBar(),
     );
   }
