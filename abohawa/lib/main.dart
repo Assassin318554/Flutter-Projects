@@ -1,6 +1,6 @@
-import 'package:abohawa/Pages/Home.dart';
-import 'package:abohawa/Pages/Loacation.dart';
-import 'package:abohawa/Pages/Loading.dart';
+import 'package:abohawa/Pages/Home/Home.dart';
+import 'package:abohawa/Pages/Home/Loacation.dart';
+import 'package:abohawa/Pages/Home/Loading.dart';
 import 'package:flutter/material.dart';
 
 void main() {

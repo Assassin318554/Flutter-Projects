@@ -48,6 +48,13 @@ class Worker {
       }
     } catch (e) {
       // Handle any errors that occurred during the API call
+      location = "Can't Find Data";
+      temp = "Can't Find Data";
+      humidity = "Can't Find Data";
+      windSpeed = "Can't Find Data";
+      description = "Can't Find Data";
+      main = "Can't Find Data";
+      print('Temparature: $temp\n');
       print('Error: $e');
       throw Exception('Failed to load weather data');
     }

@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'dart:html';
+// import 'dart:html';
+import 'package:abohawa/Pages/Widgets/bottom_navbar_widgets.dart';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
-import 'package:abohawa/Pages/Worker/Worker.dart';
+import 'package:abohawa/Pages/Widgets/Worker.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   void startApp() async {
-    Worker worker = Worker(location: 'Dhaka');
+    Worker worker = Worker(location: 'New York');
     await worker.getData();
     print(worker.location);
     print(worker.temp);
@@ -67,49 +68,29 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color.fromARGB(255, 183, 45, 208),
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: Color.fromARGB(255, 48, 8, 116),
-            ),
-            label: 'Home',
-            backgroundColor: Color.fromARGB(255, 48, 8, 116),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.location_on,
-              color: Color.fromARGB(255, 48, 8, 116),
-            ),
-            label: 'Location',
-            backgroundColor: Color.fromARGB(255, 48, 8, 116),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.settings,
-              color: Color.fromARGB(255, 48, 8, 116),
-            ),
-            label: 'Settings',
-            backgroundColor: Color.fromARGB(255, 48, 8, 116),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.white,
-        mouseCursor: MaterialStateMouseCursor.clickable,
-        selectedIconTheme: const IconThemeData(
-          color: Colors.white,
-          size: 30,
-        ), // Color for unselected items
-        selectedLabelStyle: const TextStyle(
-          fontSize: 15,
-          fontFamily: 'Headland One',
-          fontWeight: FontWeight.bold,
-        ),
-
-        onTap: _onItemTapped,
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   backgroundColor: const Color.fromARGB(255, 183, 45, 208),
+      //   items: const <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.location_on),
+      //       label: 'Location',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.settings),
+      //       label: 'Settings',
+      //     ),
+      //   ],
+      //   currentIndex: _selectedIndex,
+      //   unselectedItemColor: const Color.fromARGB(255, 9, 19, 72),
+      //   selectedItemColor: const Color.fromARGB(255, 83, 200, 250),
+      //   selectedFontSize: 15,
+      //   onTap: _onItemTapped,
+      // ),
+      bottomNavigationBar: const CustomBottomNavBar(),
     );
   }
 }

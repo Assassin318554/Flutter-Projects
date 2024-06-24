@@ -1,4 +1,4 @@
-import 'package:abohawa/Pages/Home.dart';
+import 'package:abohawa/Pages/Home/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
