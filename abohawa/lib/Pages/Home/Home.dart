@@ -1,5 +1,4 @@
-import 'dart:convert';
-// import 'dart:html';
+// ignore: file_names
 import 'package:abohawa/Pages/Widgets/DecriptionWeatherWidget.dart';
 import 'package:abohawa/Pages/Widgets/HumidityWidget.dart';
 import 'package:abohawa/Pages/Widgets/LocationWidget.dart';
@@ -7,8 +6,6 @@ import 'package:abohawa/Pages/Widgets/TemparatureWidget.dart';
 import 'package:abohawa/Pages/Widgets/WindSpeedWidget.dart';
 import 'package:abohawa/Pages/Widgets/bottom_navbar_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:http/http.dart';
 import 'package:abohawa/Pages/Widgets/Worker.dart';
 
 class HomePage extends StatefulWidget {
@@ -25,7 +22,6 @@ class _HomePageState extends State<HomePage> {
   String? windSpeed;
   String? description;
   String? main;
-  int _selectedIndex = 0;
   final TextEditingController _searchController = TextEditingController();
 
   void startApp({String city = 'Dhaka'}) async {
@@ -38,12 +34,6 @@ class _HomePageState extends State<HomePage> {
       windSpeed = worker.windSpeed;
       description = worker.description;
       main = worker.main;
-    });
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
     });
   }
 

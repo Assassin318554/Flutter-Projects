@@ -1,7 +1,5 @@
-import 'package:abohawa/Pages/Home/Home.dart';
 import 'package:abohawa/Pages/Home/Loading.dart';
 import 'package:flutter/material.dart';
-import 'package:abohawa/Pages/Widgets/LocationWidget.dart';
 
 void main() {
   runApp(const MyApp());
