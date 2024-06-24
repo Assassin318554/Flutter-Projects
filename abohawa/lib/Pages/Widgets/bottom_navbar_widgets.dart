@@ -29,16 +29,6 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
           const SizedBox(width: 10),
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.location_on),
-            style: ButtonStyle(
-              iconColor: MaterialStateProperty.all(
-                  const Color.fromARGB(255, 9, 19, 72)),
-              iconSize: MaterialStateProperty.all(30),
-            ),
-          ),
-          const SizedBox(width: 10),
-          IconButton(
-            onPressed: () {},
             icon: const Icon(Icons.settings),
             style: ButtonStyle(
               iconColor: MaterialStateProperty.all(
