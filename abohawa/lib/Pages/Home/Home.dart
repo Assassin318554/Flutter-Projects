@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   String? windSpeed;
   String? description;
   String? main;
+  String? placeHolder;
   final TextEditingController _searchController = TextEditingController();
 
   void startApp({String city = 'Dhaka'}) async {
@@ -34,11 +35,13 @@ class _HomePageState extends State<HomePage> {
       windSpeed = worker.windSpeed;
       description = worker.description;
       main = worker.main;
+      placeHolder = "Enter city name";
     });
   }
 
   @override
   void initState() {
+    placeHolder = "Enter city name";
     super.initState();
     startApp();
   }
@@ -90,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                       borderSide: const BorderSide(color: Colors.white),
                     ),
                     contentPadding: const EdgeInsets.all(20),
-                    hintText: 'Enter city name',
+                    hintText: placeHolder,
                     hintStyle: const TextStyle(color: Colors.white),
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.search, color: Colors.white),
@@ -128,6 +131,9 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.deepPurpleAccent,
         onPressed: () {
+          setState(() {
+            
+          });
           startApp();
         },
         child: const Icon(
