@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'dart:async';
 
 class Loading extends StatefulWidget {
   const Loading({super.key});
@@ -9,12 +10,16 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  bool isFirstLaunch = true;
-
   @override
   void initState() {
     super.initState();
-    isFirstLaunch = true;
+    _navigateToHome();
+  }
+
+  void _navigateToHome() async {
+    await Future.delayed(const Duration(seconds: 3));
+    // ignore: use_build_context_synchronously
+    Navigator.pushReplacementNamed(context, '/home');
   }
 
   @override
@@ -44,12 +49,10 @@ class _LoadingState extends State<Loading> {
                 height: 300,
                 child: Lottie.asset(
                   'assets/Animation1719455588029.json',
-                  fit: BoxFit.cover, // Adjust as needed
+                  fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(
-                height: 50,
-              ),
+              const SizedBox(height: 50),
               const Text(
                 'To Do App',
                 style: TextStyle(
@@ -59,41 +62,13 @@ class _LoadingState extends State<Loading> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
+              const SizedBox(height: 10),
               const Text(
                 'Track your tasks',
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 15,
                   fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  if (isFirstLaunch) {
-                    isFirstLaunch = false; // Mark as not first launch
-                    Navigator.pushReplacementNamed(
-                        context, '/home'); // Replace with home page route
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromRGBO(255, 255, 255, 1),
-                  shadowColor: const Color.fromARGB(255, 164, 227, 64),
-                  minimumSize: const Size(50, 50), // Background color
-                ),
-                child: const Text(
-                  'Let\'s Start',
-                  style: TextStyle(
-                    fontFamily: "Headland One",
-                    color: Colors.pink,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
                 ),
               ),
             ],
