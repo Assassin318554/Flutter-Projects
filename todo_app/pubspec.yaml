@@ -69,6 +69,7 @@ flutter:
   assets:
     - assets/task1.jpg
     - assets/task2.jpg
+    - assets/Animation1719455588029.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

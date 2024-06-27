@@ -3,7 +3,7 @@ class Task {
   final String title;
 
   final String? description;
-  bool favourite;
+  bool delete;
   bool status;
 
   final DateTime createdAt;
@@ -13,13 +13,13 @@ class Task {
     required this.id,
     required this.title,
     this.description,
-    this.favourite = false,
+    this.delete = false,
     this.status = false,
     required this.createdAt,
     required this.updatedAt,
   });
 
-  void toogleStatus() => favourite = !favourite;
+  void toogleStatus() => delete = !delete;
   void toogleCompleted() => status = !status;
   set setUpdatedAt(DateTime newUpdatedAt) => updatedAt = newUpdatedAt;
 
@@ -27,7 +27,7 @@ class Task {
     String? id,
     String? title,
     String? description,
-    bool? favourite,
+    bool? delete,
     bool? status,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -36,10 +36,11 @@ class Task {
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
-      favourite: favourite ?? this.favourite,
+      delete: delete ?? this.delete,
       status: status ?? this.status,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }
+  
 }
