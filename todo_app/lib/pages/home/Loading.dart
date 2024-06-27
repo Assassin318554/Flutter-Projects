@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-
 class Loading extends StatefulWidget {
   const Loading({super.key});
 
