@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_app/models/task.dart';
+import 'package:todo_app/pages/home/widgets/home_state.dart';
 import 'package:uuid/uuid.dart';
 
 class AddTaskDialog extends ConsumerStatefulWidget {
-  const AddTaskDialog(this.taskList, this.setState, {super.key});
-  final List<Task> taskList;
-
-  // Take setState as input function
-  final Function setState;
-
+  const AddTaskDialog({super.key});
+  
   @override
-  // State<AddTaskDialog> Consumer() => _AddTaskDialogState();
-
-  @override
-  // ignore: no_logic_in_create_state
-  ConsumerState<ConsumerStatefulWidget> createState() {
-    throw UnimplementedError();
-  }
+  ConsumerState<AddTaskDialog> createState() => _AddTaskDialogState();  
 }
 
-class _AddTaskDialogState extends State<AddTaskDialog> {
+class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
   late TextEditingController titleController, decroptionController;
   late GlobalKey<FormState> formkey;
 
@@ -52,8 +43,9 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );
-    widget.taskList.add(newTask);
-    widget.setState();
+
+    // Add new task to the list
+    ref.read(taskListProvider.notifier).addTask(newTask);
   }
 
   @override
@@ -75,13 +67,13 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
             if (!valid) {
               return;
             }
-            // if (title.isEmpty) {
-            //   Navigator.of(context).pop();
-            //   ScaffoldMessenger.of(context).showSnackBar(
-            //     const SnackBar(content: Text("Title is required")),
-            //   );
-            //   return;
-            // }
+            if (title.isEmpty) {
+              Navigator.of(context).pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Title is required")),
+              );
+              return;
+            }
             addNewTask(
               title: title,
               description: description,

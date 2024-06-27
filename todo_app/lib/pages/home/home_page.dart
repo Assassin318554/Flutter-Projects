@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lottie/lottie.dart';
+import 'package:todo_app/pages/home/widgets/add_task_dialog_widgets.dart';
 import 'package:todo_app/pages/home/widgets/bottom_navbar_widgets.dart';
 import 'package:todo_app/pages/home/widgets/custom_task_widgets.dart';
 import 'package:todo_app/pages/home/widgets/home_state.dart';
@@ -16,26 +17,29 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final deviceWidth = MediaQuery.of(context).size.width;
+    final deviceHeight = MediaQuery.of(context).size.height;
 
-    final incompleteTask = ref.watch(completedTaskProvider);
-    final completeTask = ref.watch(incompletedTaskProvider);
+    final incompleteTasks = ref.watch(incompletedTaskProvider);
+    final completeTasks = ref.watch(completedTaskProvider);
 
-    final taskListWidget = incompleteTask.map((singleTask) {
+    final taskListWidget = incompleteTasks.map((singleTask) {
       return CustomTaskWidget(id: singleTask.id);
     }).toList();
 
-    final completedTaskWidget = completeTask.map((singleTask) {
+    final completedTaskWidget = completeTasks.map((singleTask) {
       return CustomTaskWidget(id: singleTask.id);
     }).toList();
 
     return Scaffold(
       appBar: AppBar(
-        // toolbarHeight: deviceheight * 0.08,
+        toolbarHeight: deviceHeight * 0.09,
         centerTitle: true,
         title: const Text(
           "To Do Lists",
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: 25,
+            fontFamily: 'Headland One',
             color: Colors.white,
           ),
         ),
@@ -44,9 +48,8 @@ class _HomePageState extends ConsumerState<HomePage> {
           Padding(
             padding: EdgeInsets.only(right: deviceWidth * 0.04),
             child: const CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage(
-                  'https://images.unsplash.com/photo-1713782522146-3ac703ab3bce?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+              radius: 25,
+              backgroundImage: AssetImage('assets/task1.jpg'),
             ),
           ),
         ],
@@ -54,18 +57,15 @@ class _HomePageState extends ConsumerState<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endContained,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Open a dialogue box to for user input
-          // showDialog(
-          //   context: context,
-          //   builder: (context) {
-          //     // return const AddTaskDialog();
-          //   },
-          // );
+          showDialog(
+            context: context,
+            builder: (context) => const AddTaskDialog(),
+          );
         },
         child: const Icon(Icons.add),
       ),
       bottomNavigationBar: const CustomBottomNavBar(),
-      body: completedTaskWidget.isEmpty && incompleteTask.isEmpty
+      body: incompleteTasks.isEmpty && completeTasks.isEmpty
           ? Center(
               child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -83,7 +83,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    setState(() {});
+                  },
                   child: const Text('Reload'),
                 )
               ],
@@ -103,7 +105,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 ),
               ),
             ),
-      backgroundColor: Colors.lightBlue[50],
+      backgroundColor: const Color.fromARGB(255, 242, 251, 216),
     );
   }
 }

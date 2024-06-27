@@ -23,15 +23,7 @@ class CustomTaskWidget extends ConsumerWidget {
               children: [
                 IconButton(
                   onPressed: () {
-                    ref
-                        .read(selectedTaskProvider(id).notifier)
-                        .update((oldVal) {
-                      final newVal = oldVal.copyWith(
-                        updatedAt: DateTime.now(),
-                        status: !oldVal.status,
-                      );
-                      return newVal;
-                    });
+                    ref.read(taskListProvider.notifier).toggleTaskStatus(id);
                   },
                   icon: Icon(
                     task.status ? Icons.check_box : Icons.circle_outlined,
@@ -65,16 +57,8 @@ class CustomTaskWidget extends ConsumerWidget {
               ],
             ),
             IconButton(
-              // onPressed: toogle;
-              // onPressed: () => toogle();
               onPressed: () {
-                ref.read(selectedTaskProvider(id).notifier).update((oldVal) {
-                  final newVal = oldVal.copyWith(
-                    updatedAt: DateTime.now(),
-                    favourite: !oldVal.favourite,
-                  );
-                  return newVal;
-                });
+                ref.read(taskListProvider.notifier).toggleTaskFavourite(id);
               },
               icon: Icon(
                 Icons.star,
