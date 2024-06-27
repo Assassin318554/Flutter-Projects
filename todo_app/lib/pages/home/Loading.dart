@@ -76,17 +76,11 @@ class _LoadingState extends State<Loading> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  // if (isFirstLaunch) {
-                  //   isFirstLaunch = false; // Mark as not first launch
-                  //   Navigator.pushReplacementNamed(
-                  //       context, '/home'); // Replace with home page route
-                  // }
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HomePage(),
-                    ),
-                  );
+                  if (isFirstLaunch) {
+                    isFirstLaunch = false; // Mark as not first launch
+                    Navigator.pushReplacementNamed(
+                        context, '/home'); // Replace with home page route
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromRGBO(255, 255, 255, 1),
