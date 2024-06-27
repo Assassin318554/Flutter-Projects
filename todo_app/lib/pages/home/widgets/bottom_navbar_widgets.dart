@@ -11,7 +11,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      color: Theme.of(context).colorScheme.tertiaryContainer,
+      color: Colors.orange[50],
       // shape: const CircularNotchedRectangle(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,

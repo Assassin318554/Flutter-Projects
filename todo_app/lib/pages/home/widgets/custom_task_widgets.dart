@@ -58,11 +58,11 @@ class CustomTaskWidget extends ConsumerWidget {
             ),
             IconButton(
               onPressed: () {
-                ref.read(taskListProvider.notifier).toggleTaskFavourite(id);
+                ref.read(taskListProvider.notifier).removeTask(id);
               },
               icon: Icon(
-                Icons.star,
-                color: task.favourite ? theme.colorScheme.primary : null,
+                Icons.delete,
+                color: task.delete ? theme.colorScheme.primary : null,
               ),
             ),
           ]),

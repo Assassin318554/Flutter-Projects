@@ -16,7 +16,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final deviceWidth = MediaQuery.of(context).size.width;
     final deviceHeight = MediaQuery.of(context).size.height;
 
     final incompleteTasks = ref.watch(incompletedTaskProvider);
@@ -32,10 +31,14 @@ class _HomePageState extends ConsumerState<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.menu, color: Colors.white),
+          onPressed: () {},
+        ),
         toolbarHeight: deviceHeight * 0.09,
         centerTitle: true,
         title: const Text(
-          "To Do Lists",
+          "To Do List App",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 25,
@@ -45,8 +48,13 @@ class _HomePageState extends ConsumerState<HomePage> {
         ),
         backgroundColor: theme.colorScheme.primary,
         actions: [
-          Padding(
-            padding: EdgeInsets.only(right: deviceWidth * 0.04),
+          Container(
+            margin: const EdgeInsets.only(right: 15),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.white, width: 2),
+              borderRadius: const BorderRadius.all(Radius.circular(50)),
+            ),
+            // padding: EdgeInsets.only(right: deviceWidth * 0.04),
             child: const CircleAvatar(
               radius: 25,
               backgroundImage: AssetImage('assets/task1.jpg'),
@@ -79,15 +87,19 @@ class _HomePageState extends ConsumerState<HomePage> {
                   style: TextStyle(
                     color: Colors.black87,
                     fontWeight: FontWeight.bold,
+                    fontFamily: "Headland One",
                   ),
                 ),
                 const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {});
-                  },
-                  child: const Text('Reload'),
-                )
+                const Text(
+                  'Click on the + button to add a new task',
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontFamily: "Headland One",
+                    fontSize: 12,
+                    // fontWeight: FontWeight.bold,
+                  ),
+                ),
               ],
             ))
           : SingleChildScrollView(

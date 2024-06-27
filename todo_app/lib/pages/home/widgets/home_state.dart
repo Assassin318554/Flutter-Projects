@@ -22,12 +22,18 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
   }
 
   void toggleTaskFavourite(String id) {
+    // **Modification:** Use a dedicated 'delete' property for deletion
     state = state.map((task) {
       if (task.id == id) {
-        return task.copyWith(favourite: !task.favourite, updatedAt: DateTime.now());
+        return task.copyWith(delete: !task.delete, updatedAt: DateTime.now());
       }
       return task;
     }).toList();
+  }
+
+  // **New Function:** Implement removeTask to actually delete an item
+  void removeTask(String id) {
+    state = state.where((task) => task.id != id).toList();
   }
 }
 
