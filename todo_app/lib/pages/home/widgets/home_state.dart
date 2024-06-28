@@ -1,38 +1,51 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
 import 'package:todo_app/models/task.dart';
 
-final taskListProvider = StateNotifierProvider<TaskListNotifier, List<Task>>((ref) {
+final taskListProvider =
+    StateNotifierProvider<TaskListNotifier, List<Task>>((ref) {
   return TaskListNotifier();
 });
 
 class TaskListNotifier extends StateNotifier<List<Task>> {
-  TaskListNotifier() : super([]);
+  TaskListNotifier() : super([]) {
+    _loadTasks();
+  }
+
+  final Box<Task> _taskBox = Hive.box<Task>('tasksBox');
+
+  void _loadTasks() {
+    state = _taskBox.values.toList();
+  }
 
   void addTask(Task task) {
+    _taskBox.add(task);
     state = [...state, task];
   }
 
   void toggleTaskStatus(String id) {
-    state = state.map((task) {
-      if (task.id == id) {
-        return task.copyWith(status: !task.status, updatedAt: DateTime.now());
-      }
-      return task;
-    }).toList();
+    final task = _taskBox.values.firstWhere((task) => task.id == id);
+    final updatedTask =
+        task.copyWith(status: !task.status, updatedAt: DateTime.now());
+    task.status = !task.status;
+    task.updatedAt = DateTime.now();
+    _taskBox.put(task.key, updatedTask);
+    state = [..._taskBox.values];
   }
 
   void toggleTaskFavourite(String id) {
-    // **Modification:** Use a dedicated 'delete' property for deletion
-    state = state.map((task) {
-      if (task.id == id) {
-        return task.copyWith(delete: !task.delete, updatedAt: DateTime.now());
-      }
-      return task;
-    }).toList();
+    final task = _taskBox.values.firstWhere((task) => task.id == id);
+    final updatedTask =
+        task.copyWith(remove: !task.remove, updatedAt: DateTime.now());
+    task.remove = !task.remove;
+    task.updatedAt = DateTime.now();
+    _taskBox.put(task.key, updatedTask);
+    state = [..._taskBox.values];
   }
 
-  // **New Function:** Implement removeTask to actually delete an item
   void removeTask(String id) {
+    final task = _taskBox.values.firstWhere((task) => task.id == id);
+    _taskBox.delete(task.key);
     state = state.where((task) => task.id != id).toList();
   }
 }

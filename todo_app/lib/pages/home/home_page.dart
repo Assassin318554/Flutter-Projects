@@ -33,12 +33,45 @@ class _HomePageState extends ConsumerState<HomePage> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.menu, color: Colors.white),
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AboutDialog(
+                  applicationName: 'Start To Do',
+                  applicationVersion: '1.0.0',
+                  applicationIcon: const Icon(Icons.check),
+                  // applicationLegalese: 'Developed by ',
+                  children: [
+                    RichText(
+                      text: const TextSpan(
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Headland One',
+                          color: Colors.black,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: 'Developed by Nahin Intesher',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          TextSpan(
+                            text:
+                                '\n\nThis is a simple To Do app that helps you keep track of your tasks.',
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
         ),
         toolbarHeight: deviceHeight * 0.09,
         centerTitle: true,
         title: const Text(
-          "To Do List App",
+          "Start To Do",
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 25,

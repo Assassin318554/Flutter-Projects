@@ -62,7 +62,7 @@ class CustomTaskWidget extends ConsumerWidget {
               },
               icon: Icon(
                 Icons.delete,
-                color: task.delete ? theme.colorScheme.primary : null,
+                color: task.remove ? theme.colorScheme.primary : null,
               ),
             ),
           ]),

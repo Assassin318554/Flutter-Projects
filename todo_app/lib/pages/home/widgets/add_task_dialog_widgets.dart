@@ -15,7 +15,6 @@ class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
   late TextEditingController titleController, decroptionController;
   late GlobalKey<FormState> formkey;
 
-  // For controlling Text tile & Text Description
   @override
   void initState() {
     titleController = TextEditingController();
@@ -28,7 +27,6 @@ class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
   void dispose() {
     titleController.dispose();
     decroptionController.dispose();
-    // formkey.dispose();
     super.dispose();
   }
 
@@ -43,90 +41,65 @@ class _AddTaskDialogState extends ConsumerState<AddTaskDialog> {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );
-
-    // Add new task to the list
     ref.read(taskListProvider.notifier).addTask(newTask);
   }
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text("Add Task"),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          child: const Text("Cancel"),
-        ),
-        ElevatedButton.icon(
-          onPressed: () {
-            final title = titleController.text;
-            final description = decroptionController.text;
-            final valid = formkey.currentState?.validate() ?? false;
-            if (!valid) {
-              return;
-            }
-            if (title.isEmpty) {
-              Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Title is required")),
-              );
-              return;
-            }
-            addNewTask(
-              title: title,
-              description: description,
-            );
-            Navigator.of(context).pop();
-          },
-          label: const Text("Add"),
-          icon: const Icon(Icons.add),
-        )
-      ],
-      content: Form(
-        key: formkey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            TextFormField(
-              controller: titleController,
-              maxLength: 100,
-              minLines: 1,
-              maxLines: 2,
-              decoration: const InputDecoration(
-                labelText: "Task Title",
-                border: OutlineInputBorder(),
+    final theme = Theme.of(context);
+    return Dialog(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: formkey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Add Task',
+                style: theme.textTheme.titleLarge,
               ),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Title is required";
-                }
-                if (value.length < 3) {
-                  return "At least 3 charecters";
-                }
-                return null;
-              },
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: decroptionController,
-              minLines: 1,
-              maxLines: 5,
-              maxLength: 5000,
-              decoration: const InputDecoration(
-                labelText: "Task Description",
-                border: OutlineInputBorder(),
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: titleController,
+                decoration: const InputDecoration(
+                  labelText: 'Title',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Title is required';
+                  }
+                  return null;
+                },
               ),
-              validator: (value) {
-                // It can be null but if not null then min 5 char
-                if (value != null && value != "" && value.length < 5) {
-                  return "At least 5 charecters";
-                }
-                return null;
-              },
-            )
-          ],
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: decroptionController,
+                decoration: const InputDecoration(
+                  labelText: 'Description',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (formkey.currentState!.validate()) {
+                      addNewTask(
+                        title: titleController.text,
+                        description: decroptionController.text,
+                      );
+                      Navigator.of(context).pop();
+                    }
+                  },
+                  child: const Text('Add Task'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

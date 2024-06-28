@@ -54,7 +54,7 @@ class _LoadingState extends State<Loading> {
               ),
               const SizedBox(height: 50),
               const Text(
-                'To Do App',
+                'Start To Do',
                 style: TextStyle(
                   color: Colors.pink,
                   fontSize: 35,
