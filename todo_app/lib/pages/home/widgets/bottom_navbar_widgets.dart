@@ -14,7 +14,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        duration: Duration(seconds: 2), // Adjust as needed
+        duration: const Duration(seconds: 1), // Adjust as needed
       ),
     );
   }
