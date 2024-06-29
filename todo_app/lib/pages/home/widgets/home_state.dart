@@ -48,6 +48,23 @@ class TaskListNotifier extends StateNotifier<List<Task>> {
     _taskBox.delete(task.key);
     state = state.where((task) => task.id != id).toList();
   }
+
+  void editTask({
+    required String title,
+    String? description,
+    required String taskId,
+  }) {
+    final taskIndex = state.indexWhere((task) => task.id == taskId);
+    if (taskIndex != -1) {
+      final updatedTask = state[taskIndex].copyWith(
+        title: title,
+        description: description,
+        updatedAt: DateTime.now(),
+      );
+      _taskBox.put(state[taskIndex].key, updatedTask);
+      state = [...state]..[taskIndex] = updatedTask;
+    }
+  }
 }
 
 final incompletedTaskProvider = Provider<List<Task>>((ref) {
