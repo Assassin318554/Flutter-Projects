@@ -8,6 +8,7 @@ import 'package:todo_app/pages/home/widgets/home_state.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
+
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _HomePageState();
 }
@@ -16,6 +17,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final deviceWidth = MediaQuery.of(context).size.width;
     final deviceHeight = MediaQuery.of(context).size.height;
 
     final incompleteTasks = ref.watch(incompletedTaskProvider);
@@ -41,7 +43,6 @@ class _HomePageState extends ConsumerState<HomePage> {
                   applicationName: 'Start To Do',
                   applicationVersion: '1.0.0',
                   applicationIcon: const Icon(Icons.check),
-                  // applicationLegalese: 'Developed by ',
                   children: [
                     RichText(
                       text: const TextSpan(
@@ -50,10 +51,18 @@ class _HomePageState extends ConsumerState<HomePage> {
                           fontFamily: 'Headland One',
                           color: Colors.black,
                         ),
-                        children: [
+                        children: <TextSpan>[
                           TextSpan(
-                            text: 'Developed by Nahin Intesher',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            text: 'Developed by ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'Nahin Intesher',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           TextSpan(
                             text:
@@ -84,12 +93,11 @@ class _HomePageState extends ConsumerState<HomePage> {
           Container(
             margin: const EdgeInsets.only(right: 15),
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.white, width: 2),
+              border: Border.all(color: Colors.black, width: 1),
               borderRadius: const BorderRadius.all(Radius.circular(50)),
             ),
-            // padding: EdgeInsets.only(right: deviceWidth * 0.04),
             child: const CircleAvatar(
-              radius: 25,
+              radius: 20,
               backgroundImage: AssetImage('assets/task1.jpg'),
             ),
           ),
@@ -112,8 +120,14 @@ class _HomePageState extends ConsumerState<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Lottie.network(
-                    "https://assets4.lottiefiles.com/datafiles/vhvOcuUkH41HdrL/data.json"),
+                SizedBox(
+                  width: deviceWidth * 0.5,
+                  height: deviceWidth * 0.5,
+                  child: Lottie.asset(
+                    'assets/Animation1714526349313.json',
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 const SizedBox(height: 10),
                 const Text(
                   'No Tasks Yet',
@@ -130,22 +144,29 @@ class _HomePageState extends ConsumerState<HomePage> {
                     color: Colors.black54,
                     fontFamily: "Headland One",
                     fontSize: 12,
-                    // fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
             ))
           : SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(deviceWidth * 0.02),
                 child: Column(
                   children: [
                     ...taskListWidget,
+                    const SizedBox(height: 10),
                     ExpansionTile(
-                        initiallyExpanded: true,
-                        title: Text(
-                            'Completed Tasks (${completedTaskWidget.length})'),
-                        children: completedTaskWidget),
+                      initiallyExpanded: true,
+                      title: Text(
+                        'Completed Tasks (${completedTaskWidget.length})',
+                        style: TextStyle(
+                          color: theme.colorScheme.primary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17,
+                        ),
+                      ),
+                      children: completedTaskWidget,
+                    ),
                   ],
                 ),
               ),
